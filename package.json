@@ -16,7 +16,7 @@
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/goitacademy/parcel-project-template/issues"
-sss  },
+  },
   "dependencies": {
     "modern-normalize": "^1.1.0"
   },
