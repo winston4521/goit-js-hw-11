@@ -80,7 +80,7 @@ p {
 }
 .info {
   display: flex;
-  margin-top: 30px;
+
   flex-direction: column;
 }
 .photo-card {
@@ -99,6 +99,9 @@ p {
 
 .info {
   padding: 24px;
+  display: flex;
+}
+.info-item {
   display: flex;
 }
 
@@ -175,4 +178,9 @@ input {
 
 .right {
   transform: rotate(-45deg);
+}
+
+b {
+  margin-right: 5px;
+  display: flex;
 }
