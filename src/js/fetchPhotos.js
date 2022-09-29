@@ -9,7 +9,6 @@ export default class NewApiService {
   }
 
   async onImgGet() {
-    
     const URL = 'https://pixabay.com/api/';
     const KEY = '29453019-5a69b6c7b2f01a070c80deb0c';
 
@@ -24,8 +23,6 @@ export default class NewApiService {
         page: this.page,
       },
     });
-
-    this.nextPage();
 
     return response.data;
   }

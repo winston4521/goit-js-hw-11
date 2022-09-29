@@ -13,13 +13,13 @@ import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import Notiflix from 'notiflix';
 const newApiService = new FetchApiPixabay();
-const $from = document.querySelector('#search-form');
-const $loadMore = document.querySelector('.load-more');
-
-$from.addEventListener('submit', onSearch);
-$from.addEventListener('input', onBtnHandler);
-$loadMore.addEventListener('click', onLoadMore);
-
+const from = document.querySelector('#search-form');
+const loadMore = document.querySelector('.load-more');
+let amount = 0;
+from.addEventListener('submit', onSearch);
+from.addEventListener('input', onBtnHandler);
+loadMore.addEventListener('click', onLoadMore);
+const simpleLightBox = new SimpleLightbox('.gallery a');
 btnHidden();
 btnSearchDisabled();
 
@@ -45,28 +45,35 @@ async function apiRequest() {
     Notiflix.Notify.failure(
       `Sorry, there are no images matching your search ${newApiService.onGet}. Please try again.`
     );
-
     return;
   }
-  new SimpleLightbox('.gallery a', onRenderGallery($hits));
+
+  onRenderGallery($hits);
+  simpleLightBox.refresh();
   Notiflix.Notify.success(`Hooray! We found ${promise.totalHits} images.`);
-  btnVisible();
+
+  if ($hits.length < newApiService.per_page) {
+    btnHidden();
+  } else {
+    btnVisible();
+  }
 }
 
 // =================onLoadMore=======================
 async function onLoadMore() {
+  newApiService.page += 1;
   const loadNewPage = await newApiService.onImgGet();
-  const amount = Math.floor(loadNewPage.totalHits / newApiService.per_page);
+  amount = Math.ceil(loadNewPage.totalHits / newApiService.per_page);
 
   if (newApiService.page >= amount) {
     Notiflix.Notify.failure(
       "We're sorry, but you've reached the end of search results."
     );
     btnHidden();
-    return loadNewPage;
   }
 
-  new SimpleLightbox('.gallery a', onRenderGallery(loadNewPage.hits));
+  onRenderGallery(loadNewPage.hits);
+  simpleLightBox.refresh();
   Notiflix.Notify.success(`Hooray! We found ${loadNewPage.totalHits} images.`);
 }
 
